@@ -70,10 +70,10 @@ static int play_one_frame(void *packet,
 		const unsigned int channels)
 {
 	int r;
-	int *pcm;
+	int16_t *pcm;
 	snd_pcm_sframes_t f, samples = 1920;
 
-	pcm = alloca(sizeof(int) * samples * channels);
+	pcm = alloca(sizeof(int16_t) * samples * channels);
 
 	if (packet == NULL) {
 		r = opus_decode(decoder, NULL, 0, pcm, samples, 1);

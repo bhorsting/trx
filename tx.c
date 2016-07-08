@@ -60,13 +60,13 @@ static int send_one_frame(snd_pcm_t *snd,
 		const unsigned int ts_per_frame,
 		RtpSession *session)
 {
-	int *pcm;
+	int16_t *pcm;
 	void *packet;
 	ssize_t z;
 	snd_pcm_sframes_t f;
 	static unsigned int ts = 0;
 
-	pcm = alloca(sizeof(int) * samples * channels);
+	pcm = alloca(sizeof(int16_t) * samples * channels);
 	packet = alloca(bytes_per_frame);
 
 	f = snd_pcm_readi(snd, pcm, samples);
