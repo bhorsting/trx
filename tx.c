@@ -60,13 +60,13 @@ static int send_one_frame(snd_pcm_t *snd,
 		const unsigned int ts_per_frame,
 		RtpSession *session)
 {
-	float *pcm;
+	int *pcm;
 	void *packet;
 	ssize_t z;
 	snd_pcm_sframes_t f;
 	static unsigned int ts = 0;
 
-	pcm = alloca(sizeof(float) * samples * channels);
+	pcm = alloca(sizeof(int) * samples * channels);
 	packet = alloca(bytes_per_frame);
 
 	f = snd_pcm_readi(snd, pcm, samples);
@@ -77,9 +77,9 @@ static int send_one_frame(snd_pcm_t *snd,
 	if (f < samples)
 		fprintf(stderr, "Short read, %ld\n", f);
 
-	z = opus_encode_float(encoder, pcm, samples, packet, bytes_per_frame);
+	z = opus_encode(encoder, pcm, samples, packet, bytes_per_frame);
 	if (z < 0) {
-		fprintf(stderr, "opus_encode_float: %s\n", opus_strerror(z));
+		fprintf(stderr, "opus_encode: %s\n", opus_strerror(z));
 		return -1;
 	}
 
