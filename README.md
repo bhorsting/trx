@@ -1,9 +1,7 @@
 trx: Realtime audio over IP
 ===
 
-Mirrored (04/10/2014) copy of the http://www.pogo.org.uk/~mark/trx/
-
-
+Fork of the http://www.pogo.org.uk/~mark/trx/
 (C) Copyright 2012 Mark Hills <mark@xwax.org>
 
 See the COPYING file for licensing terms.
@@ -23,3 +21,11 @@ be sent with low-latency and fast recovery from dropouts.
 
 With quality audio hardware and wired ethernet, a total latency of no
 more than a few milliseconds is possible.
+
+Why this fork?
+===
+The original version had a hardcoded `SND_PCM_FORMAT_FLOAT` constant as PCM sample format. First this constant is deprecated (see [alsa-project.org](http://www.alsa-project.org/alsa-doc/alsa-lib/group___p_c_m.html#gaa14b7f26877a812acbb39811364177f8) for reference) and second float PCM sample format is quite unusual for current USB Audio Interfaces. 
+
+Currently changed this to hardcoded `SND_PCM_FORMAT_S16_LE` constant and moved from `opus_encode_float()` / `opus_decode_float()` to `opus_encode()` / `opus_decode()` to make libopus work with integer encoded PCM samples. 
+
+I'm going to make this tool more configurable in the future (e.g. configurable PCM sample format) as I'm going to use this a lot in one of my projects.
